@@ -1,7 +1,13 @@
 from flask import Flask, jsonify, request
 
 
-app = Flask(__name__)
+def create_app():
+    my_app = Flask(__name__)
+    return my_app
+
+
+app = create_app()
+
 
 @app.route("/")
 @app.route("/index.html")
@@ -10,4 +16,4 @@ def index():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
