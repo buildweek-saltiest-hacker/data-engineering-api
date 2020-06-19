@@ -9,7 +9,6 @@ from flask import Flask, make_response, request, jsonify
 
 app = Flask(__name__)
 
-
 @app.route('/')
 @app.route('/test')
 def test_api():
