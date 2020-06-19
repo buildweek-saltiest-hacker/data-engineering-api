@@ -3,3 +3,6 @@
 
 ### Endpoints:
 - /test
+```
+{"Rank":1,"Score":9000,"User":"Broken"}
+```
