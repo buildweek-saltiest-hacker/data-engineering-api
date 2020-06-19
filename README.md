@@ -2,7 +2,9 @@
 
 
 ### Endpoints:
-- /test
+- /comment-by-id/256
 ```
-{"Rank":1,"Score":9000,"User":"Broken"}
+{"comment":"That seems like a pretty easy fix.  Just ensure that you have a 
+.something somewhere in the address, before the first slash.",
+"saltiness":"-8442"}
 ```
