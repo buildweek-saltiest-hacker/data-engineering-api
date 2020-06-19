@@ -6,7 +6,6 @@ Iuliia Stanina
 Robert Sharp
 """
 from flask import Flask, make_response, request, jsonify
-import gunicorn
 
 app = Flask(__name__)
 
