@@ -1,18 +1,32 @@
 """
 API for the Salty Hacker Build Week Project
 
-Developers:
+API Developers:
 Iuliia Stanina
 Robert Sharp
 """
 from flask import Flask, make_response, request, jsonify
+import pandas as pd
+
 
 app = Flask(__name__)
+data = pd.read_csv('salty_hacker.csv')
+
 
 @app.route('/')
 @app.route('/test')
 def test_api():
     return jsonify({'User': 'Broken', 'Rank': 1, 'Score': 9000})
+
+
+@app.route('/comment-by-id/<comment_id>')
+def comment_by_id(comment_id):
+    try:
+        comment = data['comment'][int(comment_id)]
+        saltiness = str(data['saltiness'][int(comment_id)])
+        return jsonify({'comment': comment, 'saltiness': saltiness})
+    except KeyError:
+        return jsonify({'comment': 'Comment not found!', 'saltiness': '0'})
 
 
 @app.before_request
