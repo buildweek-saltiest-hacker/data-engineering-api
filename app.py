@@ -40,6 +40,15 @@ def test():
     records = parse_records(all_records)
     return jsonify(records)
 
+@app.route('/comments-by-author/<author>')
+def get_author(author=None):
+    print(author)
+    author_comments = parse_records(Comment.query.filter_by(author=author).all())
+    comments_list = {'author':{'comments': []}}
+    for c in author_comments:
+        comments_list['author']['comments'].append({'id':c['id'], 'comment':c['comment'], 'saltiness':c['saltiness']})
+    return jsonify(comments_list)
+
 
 @app.before_request
 def before_request():
