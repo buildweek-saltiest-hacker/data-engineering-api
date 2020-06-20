@@ -34,11 +34,12 @@ def documentation():
         ]
     })
 
-# @app.route('/test')
-# def test():
-#     all_records = Comment.query.limit(10).all()
-#     records = parse_records(all_records)
-#     return jsonify(records)
+@app.route('/test')
+def test():
+    all_records = Comment.query.limit(100).all()
+    records = parse_records(all_records)
+    return jsonify(records)
+
 
 @app.before_request
 def before_request():

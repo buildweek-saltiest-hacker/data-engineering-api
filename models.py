@@ -23,7 +23,6 @@ class Comment(db.Model):
 
 
 def parse_records(database_records):
-
     parsed_records = []
     for record in database_records:
         print(record)
