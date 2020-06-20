@@ -10,23 +10,60 @@ import pandas as pd
 
 
 app = Flask(__name__)
-data = pd.read_csv('salty_hacker.csv')
+data = pd.read_csv('hacker-comments.csv')
 
 
 @app.route('/')
-@app.route('/test')
-def test_api():
-    return jsonify({'User': 'Broken', 'Rank': 1, 'Score': 9000})
+@app.route('/docs')
+def documentation():
+    return jsonify({
+        'Project': 'Saltiest Hacker API',
+        'Developers': [
+            'Iuliia Stanina',
+            'Robert Sharp',
+        ],
+        'End Points': [
+            '/',
+            '/comment-by-id/<comment_id>',
+            '/comments-by-author/<author>',
+        ]
+    })
+
+
+@app.route('/comments-by-author/<author>')
+def comments_by_author(author):
+    if author in data['hacker_name'].values:
+        comments = data[data['hacker_name'] == author]['hacker_comment']
+        return jsonify({
+            'author': author,
+            'comments': comments.to_list()[:10],
+        })
+    else:
+        return jsonify({
+            'author': 'Author not found',
+            'comment': 'Comment not found',
+            'salty_rank': 'N/A',
+        })
 
 
 @app.route('/comment-by-id/<comment_id>')
 def comment_by_id(comment_id):
-    try:
-        comment = data['comment'][int(comment_id)]
-        saltiness = str(data['saltiness'][int(comment_id)])
-        return jsonify({'comment': comment, 'saltiness': saltiness})
-    except KeyError:
-        return jsonify({'comment': 'Comment not found!', 'saltiness': '0'})
+    _id = int(comment_id)
+    if _id in data.index:
+        comment = data['hacker_comment'][_id]
+        saltiness = str(data['comment_saltiness'][_id])
+        author = data['hacker_name'][_id]
+        return jsonify({
+            'author': author,
+            'comment': comment,
+            'saltiness': saltiness,
+        })
+    else:
+        return jsonify({
+            'author': 'Author not found',
+            'comment': 'Comment not found',
+            'saltiness': '0',
+        })
 
 
 @app.before_request
