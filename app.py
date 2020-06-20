@@ -10,13 +10,11 @@ from models import db, migrate, Comment
 import pandas as pd
 import os
 
-
 DATABASE_URL = os.getenv("DATABASE_URL")
 app = Flask(__name__)
 db.init_app(app)
 migrate.init_app(app, db)
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
-
 
 @app.route('/')
 def documentation():
