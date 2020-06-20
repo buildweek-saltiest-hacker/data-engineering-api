@@ -4,4 +4,3 @@ psycopg2==2.8.5
 flask_sqlalchemy==2.4.3
 flask_migrate==2.5.3
 pandas~=1.0.3
-

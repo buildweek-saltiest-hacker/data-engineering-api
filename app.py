@@ -10,27 +10,29 @@ from models import db, migrate, Comment
 import pandas as pd
 import os
 
-DATABASE_URL = os.getenv("DATABASE_URL")
 
+DATABASE_URL = os.getenv("DATABASE_URL")
 app = Flask(__name__)
 db.init_app(app)
 migrate.init_app(app, db)
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 
+
 @app.route('/')
-@app.route('/test')
-def test_api():
-    return jsonify({'User': 'Broken', 'Rank': 1, 'Score': 9000})
-
-
-@app.route('/comment-by-id/<comment_id>')
-def comment_by_id(comment_id):
-    try:
-        comment = data['comment'][int(comment_id)]
-        saltiness = str(data['saltiness'][int(comment_id)])
-        return jsonify({'comment': comment, 'saltiness': saltiness})
-    except KeyError:
-        return jsonify({'comment': 'Comment not found!', 'saltiness': '0'})
+def documentation():
+    return jsonify({
+        'Project': 'Saltiest Hacker API',
+        'Developers': [
+            'Iuliia Stanina',
+            'Robert Sharp',
+        ],
+        'End Points': [
+            '/',
+            '/score-by-author/<author>',
+            '/comment-by-id/<comment_id>',
+            '/comments-by-author/<author>',
+        ]
+    })
 
 
 @app.before_request
