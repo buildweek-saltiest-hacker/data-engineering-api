@@ -1,8 +1,15 @@
+
+"""
+API for the Salty Hacker Build Week Project
+
+Model Developer:
+Iuliia Stanina
+"""
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
-db = SQLAlchemy()
 
+db = SQLAlchemy()
 migrate = Migrate()
 
 

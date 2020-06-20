@@ -1,7 +1,7 @@
 Flask~=1.1.2
-gunicorn==20.0.4
-psycopg2==2.8.5
-flask_sqlalchemy==2.4.3
-flask_migrate==2.5.3
+gunicorn~=20.0.4
+psycopg2-binary~=2.8.5
+flask_sqlalchemy~=2.4.3
+flask_migrate~=2.5.3
 pandas~=1.0.3
-python-dotenv==0.13.0
+python-dotenv~=0.13.0
