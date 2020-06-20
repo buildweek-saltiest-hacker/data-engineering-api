@@ -1,13 +1,21 @@
 """
 API for the Salty Hacker Build Week Project
 
-Developers:
+API Developers:
 Iuliia Stanina
 Robert Sharp
 """
 from flask import Flask, make_response, request, jsonify
+from models import db, migrate, Comment
+import pandas as pd
+import os
+
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 app = Flask(__name__)
+db.init_app(app)
+migrate.init_app(app, db)
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 
 
 @app.route('/')
@@ -16,15 +24,27 @@ def test_api():
     return jsonify({'User': 'Broken', 'Rank': 1, 'Score': 9000})
 
 
+@app.route('/comment-by-id/<comment_id>')
+def comment_by_id(comment_id):
+    try:
+        comment = data['comment'][int(comment_id)]
+        saltiness = str(data['saltiness'][int(comment_id)])
+        return jsonify({'comment': comment, 'saltiness': saltiness})
+    except KeyError:
+        return jsonify({'comment': 'Comment not found!', 'saltiness': '0'})
+
+
 @app.before_request
 def before_request():
     """ CORS preflight """
+
     def _build_cors_prelight_response():
         response = make_response()
         response.headers.add("Access-Control-Allow-Origin", "*")
         response.headers.add("Access-Control-Allow-Headers", "*")
         response.headers.add("Access-Control-Allow-Methods", "*")
         return response
+
     if request.method == "OPTIONS":
         return _build_cors_prelight_response()
 
