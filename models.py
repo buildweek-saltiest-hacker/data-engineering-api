@@ -21,4 +21,4 @@ class Comment(db.Model):
     score = db.Column(db.Integer)
 
     def __repr__(self):
-        return f"<Comment {self.id} {self.text}>"
+        return f"<Comment {self.id} {self.comment}>"
