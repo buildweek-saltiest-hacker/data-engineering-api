@@ -46,8 +46,7 @@ def get_author(author=None):
     author_comments = parse_records(Comment.query.filter_by(author=author).all())
     comments_list = {'author':{'comments': []}}
     for c in author_comments:
-        print(c['comment'])
-        comments_list['author']['comments'].append({'id':c['id'], 'comment':c['comment'], 'saltiness':c['saltiness'], 'score':c['score']})
+        comments_list['author']['comments'].append({'id':c['id'], 'comment':c['comment'], 'saltiness':c['saltiness']})
     return jsonify(comments_list)
 
 
