@@ -24,25 +24,37 @@ def documentation():
         ],
         'End Points': [
             '/',
+            '/score-by-author/<author>',
             '/comment-by-id/<comment_id>',
             '/comments-by-author/<author>',
         ]
     })
 
 
+@app.route('/score-by-author/<author>')
+def score_by_author(author):
+    if author in data['hacker_name'].values:
+        score = data[data['hacker_name'] == author]['hacker_score']
+        return jsonify({
+            'score': str(list(score)[0]),
+        })
+    else:
+        return jsonify({
+            'score': '0',
+        })
+
+
 @app.route('/comments-by-author/<author>')
 def comments_by_author(author):
     if author in data['hacker_name'].values:
-        comments = data[data['hacker_name'] == author]['hacker_comment']
+        comments = data[data['hacker_name'] == author][[
+            'hacker_comment', 'comment_saltiness']]
         return jsonify({
-            'author': author,
             'comments': comments.to_list()[:10],
         })
     else:
         return jsonify({
-            'author': 'Author not found',
-            'comment': 'Comment not found',
-            'salty_rank': 'N/A',
+            'comments': [],
         })
 
 
