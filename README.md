@@ -18,7 +18,6 @@ https://saltiest-hacker-json.herokuapp.com/comment-by-id/256
 ```
 - /comments-by-author/<author>
     - json object
-        - comment_id: string
         - comments: list of strings (max number of strings?)
 
 - /score-by-author/<author>
