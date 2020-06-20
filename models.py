@@ -1,9 +1,9 @@
+
 """
 API for the Salty Hacker Build Week Project
 
-API Developers:
+Model Developer:
 Iuliia Stanina
-Robert Sharp
 """
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
