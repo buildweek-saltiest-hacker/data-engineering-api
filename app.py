@@ -17,7 +17,6 @@ db.init_app(app)
 migrate.init_app(app, db)
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 
-
 @app.route('/')
 @app.route('/test')
 def test_api():
