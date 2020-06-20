@@ -21,7 +21,8 @@ DB_HOST = os.getenv("DB_HOST")
 connection = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST)
 cursor = connection.cursor(cursor_factory=DictCursor)
 
-my_df = pd.read_csv("hack-comments.csv")
+my_df = pd.read_csv("hacker-comments.csv")
+
 records = my_df.to_dict("records")
 list_of_tuples = [(r["hacker_name"], r["hacker_comment"], r["comment_saltiness"], r["hacker_score"]) for r in records]
 
