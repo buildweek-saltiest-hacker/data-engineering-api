@@ -25,7 +25,7 @@ def documentation():
             'Iuliia Stanina',
             'Robert Sharp',
         ],
-        'End Points': [
+        'Planned End Points': [
             '/',
             '/score-by-author/<author>',
             '/comment-by-id/<comment_id>',
