@@ -6,7 +6,7 @@ Iuliia Stanina
 Robert Sharp
 """
 from flask import Flask, make_response, request, jsonify
-from models import db, migrate, Comment
+from models import db, migrate, Comment, parse_records
 import pandas as pd
 import os
 
@@ -34,6 +34,11 @@ def documentation():
         ]
     })
 
+# @app.route('/test')
+# def test():
+#     all_records = Comment.query.limit(10).all()
+#     records = parse_records(all_records)
+#     return jsonify(records)
 
 @app.before_request
 def before_request():
