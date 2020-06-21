@@ -7,8 +7,10 @@ Robert Sharp
 """
 from flask import Flask, make_response, request, jsonify
 from models import db, migrate, Comment, parse_records
-import pandas as pd
 import os
+
+# from dotenv import load_dotenv
+# load_dotenv()
 
 
 DATABASE_URL = os.getenv("DATABASE_URL")
@@ -34,20 +36,26 @@ def documentation():
         ]
     })
 
+
 @app.route('/test')
 def test():
-    all_records = Comment.query.limit(100).all()
+    all_records = Comment.query.limit(10).all()
     records = parse_records(all_records)
     return jsonify(records)
 
+
 @app.route('/comments-by-author/<author>')
 def get_author(author=None):
-    print(author)
     author_comments = parse_records(Comment.query.filter_by(author=author).all())
-    comments_list = {'author':{'comments': []}}
+    comments_list = {'comments': []}
     for c in author_comments:
-        comments_list['author']['comments'].append({'id':c['id'], 'comment':c['comment'], 'saltiness':c['saltiness']})
-    return jsonify(comments_list)
+        comments_list['comments'].append({
+            'id': c['id'],
+            'comment': c['comment'],
+            'saltiness': c['saltiness'],
+        })
+    result = sorted(comments_list['comments'], key=lambda x: x['saltiness'], reverse=True)
+    return jsonify(result[:10])
 
 
 @app.before_request
