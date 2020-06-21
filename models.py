@@ -25,7 +25,6 @@ class Comment(db.Model):
 def parse_records(database_records):
     parsed_records = []
     for record in database_records:
-        print(record)
         parsed_record = record.__dict__
         del parsed_record["_sa_instance_state"]
         parsed_records.append(parsed_record)
