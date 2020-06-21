@@ -9,9 +9,8 @@ from flask import Flask, make_response, request, jsonify
 from models import db, migrate, Comment, parse_records
 import os
 
-from dotenv import load_dotenv
-
-load_dotenv()
+# from dotenv import load_dotenv
+# load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 app = Flask(__name__)
