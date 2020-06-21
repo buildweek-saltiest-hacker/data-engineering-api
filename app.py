@@ -37,7 +37,7 @@ def test():
 @app.route('/comments-by-author/<author>')
 def comments_by_author(author):
     """ Returns list of the top 3 most salty comments for any author
-        http://127.0.0.1:5000/comments-by-author/po """
+        /comments-by-author/po """
     comments = Comment.query.filter_by(author=author)
     parsed = parse_records(comments.order_by(Comment.saltiness).all())
     ordered = [{
@@ -51,14 +51,14 @@ def comments_by_author(author):
 @app.route('/score-by-author/<author>')
 def score_by_author(author):
     """ Returns the average saltiness of all comments by this author
-    http://127.0.0.1:5000/score-by-author/po """
+    /score-by-author/po """
     return jsonify(Comment.query.filter_by(author=author).first().score)
 
 
 @app.route('/comment-by-id/<comment_id>')
 def comment_by_id(comment_id):
     """ Comment text by comment_id
-    http://127.0.0.1:5000/comment-by-id/42 """
+    /comment-by-id/42 """
     return jsonify(Comment.query.filter_by(id=comment_id).first().comment)
 
 
