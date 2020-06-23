@@ -28,13 +28,13 @@ comments = comments_df.to_dict("records")
 hackers = hacker_df.to_dict("records")
 
 list_of_comments = [(c["hacker_name"], c["hacker_comment"], c["comment_saltiness"], c["hacker_score"]) for c in comments]
-list_of_hackers = [(h["name"], h["score"]) for h in hackers]
+list_of_hackers = [(h["rank"], h["name"], h["score"]) for h in hackers]
 
 insert_comments = "INSERT INTO comment (author, comment, saltiness, score) VALUES %s"
 execute_values(cursor, insert_comments, list_of_comments)
 
-insert_hackers = "INSERT INTO hacker (author, score) VALUES %s"
-execute_values(cursor, insert_comments, list_of_hackers)
+insert_hackers = "INSERT INTO hacker (rank, name, score) VALUES %s"
+execute_values(cursor, insert_hackers, list_of_hackers)
 connection.commit()
 
 cursor.close()
