@@ -22,13 +22,13 @@ class Comment(db.Model):
         return f'<Comment {self.id} {self.author} {self.comment} {self.saltiness} {self.score}'
 
 
-# class Hacker(db.Model):
-#     rank = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String(128))
-#     score = db.Column(db.Integer)
-#
-#     def __repr__(self):
-#         return f'<Comment {self.rank} {self.name} {self.score}'
+class Hacker(db.Model):
+    rank = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(128))
+    score = db.Column(db.Integer)
+
+    def __repr__(self):
+        return f'<Hacker {self.rank} {self.name} {self.score}'
 
 
 def parse_records(database_records):

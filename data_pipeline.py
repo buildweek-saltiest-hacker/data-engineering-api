@@ -21,14 +21,20 @@ DB_HOST = os.getenv("DB_HOST")
 connection = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST)
 cursor = connection.cursor(cursor_factory=DictCursor)
 
-my_df = pd.read_csv("hacker-comments.csv")
+comments_df = pd.read_csv("hacker-comments.csv")
+hacker_df = pd.read_csv("hacker-table.csv")
 
-records = my_df.to_dict("records")
-list_of_tuples = [(r["hacker_name"], r["hacker_comment"], r["comment_saltiness"], r["hacker_score"]) for r in records]
+comments = comments_df.to_dict("records")
+hackers = hacker_df.to_dict("records")
 
+list_of_comments = [(c["hacker_name"], c["hacker_comment"], c["comment_saltiness"], c["hacker_score"]) for c in comments]
+list_of_hackers = [(h["name"], h["score"]) for h in hackers]
 
-insertion_query = "INSERT INTO comment (author, comment, saltiness, score) VALUES %s"
-execute_values(cursor, insertion_query, list_of_tuples)
+insert_comments = "INSERT INTO comment (author, comment, saltiness, score) VALUES %s"
+execute_values(cursor, insert_comments, list_of_comments)
+
+insert_hackers = "INSERT INTO hacker (author, score) VALUES %s"
+execute_values(cursor, insert_comments, list_of_hackers)
 connection.commit()
 
 cursor.close()
