@@ -1,7 +1,13 @@
 # Saltiest Hacker API
 
+
 ## Primary URL
 - `https://saltiest-hacker-json.herokuapp.com/`
+
+## API Developers
+- Iuliia Stanina
+- Robert Sharp
+
 
 ### API Details
 
@@ -14,23 +20,24 @@
 - API Index
     - List of endpoints
 
-#### `/comments-by-author/<author>` :: The three saltiest comments of a given hacker
-- id
-- comment
-- saltiness
+#### `/comments-by-author/<author>`
+- The three saltiest comments of a given hacker
+    - id
+    - comment
+    - saltiness
 
 #### `/score-by-author/<author>`
 - Salty score by author's name
     - score
 
-#### `/comment-by-id/<comment_id>` :: 
+#### `/comment-by-id/<comment_id>`
 - Comment text by id
     - author
     - comment
     - saltiness
 
 #### `/recent`
-- List of most recent comments in order from most salty to least.
+- List of 30 recent comments in order from most salty to least.
     - author
     - headline
     - comment
@@ -41,8 +48,6 @@
     - score
     - text
 
-
-### ToDo
 #### `/top-hackers/<optional number>`
 - List of the top saltiest hackers of all time. Three by default.
     - rank

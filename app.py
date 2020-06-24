@@ -7,12 +7,11 @@ Robert Sharp
 """
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 from flask import Flask, make_response, request, jsonify
-from models import db, migrate, Comment, parse_records
+from models import db, migrate, Comment, parse_records, Hacker
 from bs4 import BeautifulSoup
 from random import choice, randint
 import requests
 import os
-import re
 
 
 # from dotenv import load_dotenv
@@ -47,17 +46,18 @@ def home():
 
 @app.route('/docs')
 def docs():
-    return jsonify((
-        ':: HTTP Routes ::',
-        '/',
-        '/docs',
-        '/comments-by-author/<author>',
-        '/score-by-author/<author>',
-        '/comment-by-id/<comment_id>',
-        '/top-hackers/<number>',
-        '/recent',
-        'sentiment/<text>',
-    ))
+    return jsonify(routes={
+        '/': 'API home page',
+        '/docs': 'This page',
+        '/comments-by-author/<author>': 'Most salty comments',
+        '/score-by-author/<author>': 'Average saltiness',
+        '/comment-by-id/<comment_id>': 'Comment by id',
+        '/top-hackers/<number>': 'Most salty hackers, default 3',
+        '/recent': 'Most recent 30 comments, ordered by saltiness',
+        '/sentiment/<text>': 'Live sentiment analysis',
+        '/random-comment': 'Random comment with saltiness',
+        '/random-author': 'Random author with their most salty comments',
+    })
 
 
 @app.before_request
@@ -99,9 +99,9 @@ def comments_by_author(author):
 
 @app.route('/score-by-author/<author>')
 def score_by_author(author):
-    """ Returns the average saltiness of their comments
+    """ Returns the average saltiness of a hacker's comments
     /score-by-author/po """
-    return jsonify(score=Comment.query.filter_by(author=author).first().score)
+    return jsonify(score=Hacker.query.filter_by(name=author).first().score)
 
 
 @app.route('/comment-by-id/<comment_id>')
@@ -136,26 +136,26 @@ def recent():
     return jsonify(data=comments)
 
 
-# @app.route('/top-hackers/<number>')
-# def top_hackers(number=3):
-#     hackers = parse_records(Hacker.query.limit(number).all())
-#     return jsonify([{
-#         'rank': hacker.rank,
-#         'name': hacker.name,
-#         'score': hacker.score,
-#     } for hacker in hackers])
+@app.route('/top-hackers/<number>')
+def top_hackers(number=3):
+    hackers = Hacker.query.limit(number).all()
+    return jsonify([{
+        'rank': hacker.rank,
+        'name': hacker.name,
+        'score': hacker.score,
+    } for hacker in hackers])
 
 
-# @app.route('/random-comment')
-# def random_comment():
-#     return comment_by_id(randint(0, 230702))
+@app.route('/random-comment')
+def random_comment():
+    return comment_by_id(randint(0, 230702))
 
 
-# @app.route('/random-author')
-# def random_author():
-#     author = choice([hacker.name for hacker in Hacker.query.all()])
-#     comments = comments_by_author(author)
-#     return jsonify(author=author, comments=comments)
+@app.route('/random-author')
+def random_author():
+    author = choice([hacker.name for hacker in Hacker.query.all()])
+    comments = comments_by_author(author).json
+    return jsonify(author=author, comments=comments)
 
 
 if __name__ == '__main__':
