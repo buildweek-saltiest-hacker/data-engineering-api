@@ -14,8 +14,8 @@ import requests
 import os
 
 
-# from dotenv import load_dotenv
-# load_dotenv()
+from dotenv import load_dotenv
+load_dotenv()
 
 
 DATABASE_URL = os.getenv("DATABASE_URL")
@@ -128,7 +128,7 @@ def recent():
         text = com.get_text().strip()
         comments.append({
             'author': usr.get_text(),
-            'saltiness': sentiment_score(text) // 100,
+            'saltiness': sentiment_score(text),
             'headline': head.find('a').get_text(),
             'comment': text,
         })
