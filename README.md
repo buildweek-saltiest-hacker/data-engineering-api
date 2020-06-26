@@ -48,8 +48,8 @@
     - score
     - text
 
-#### `/top-hackers/<optional number>`
-- List of the top saltiest hackers of all time. Three by default.
+#### `/top-hackers/<number>`
+- List of the top saltiest hackers of all time.
     - rank
     - name
     - score

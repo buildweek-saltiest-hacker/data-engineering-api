@@ -14,8 +14,8 @@ import requests
 import os
 
 
-# from dotenv import load_dotenv
-# load_dotenv()
+from dotenv import load_dotenv
+load_dotenv()
 
 
 DATABASE_URL = os.getenv("DATABASE_URL")
@@ -28,7 +28,7 @@ sid_obj = SentimentIntensityAnalyzer()
 
 def sentiment_score(sentence: str) -> int:
     sentiment_dict = sid_obj.polarity_scores(sentence)
-    return int(-sentiment_dict['compound'] * 10000)
+    return int(-sentiment_dict['compound'] * 100)
 
 
 @app.route('/sentiment/<text>')
@@ -52,7 +52,7 @@ def docs():
         '/comments-by-author/<author>': 'Most salty comments',
         '/score-by-author/<author>': 'Average saltiness',
         '/comment-by-id/<comment_id>': 'Comment by id',
-        '/top-hackers/<number>': 'Most salty hackers, default 3',
+        '/top-hackers/<number>': 'Most salty hackers, ordered by saltiness',
         '/recent': 'Most recent 30 comments, ordered by saltiness',
         '/sentiment/<text>': 'Live sentiment analysis',
         '/random-comment': 'Random comment with saltiness',
@@ -92,7 +92,7 @@ def comments_by_author(author):
     ordered = [{
         'id': item['id'],
         'comment': item['comment'],
-        'saltiness': item['saltiness'],
+        'saltiness': item['saltiness'] // 100,
     } for item in reversed(parsed[-3:])]
     return jsonify(ordered)
 
@@ -101,7 +101,7 @@ def comments_by_author(author):
 def score_by_author(author):
     """ Returns the average saltiness of a hacker's comments
     /score-by-author/po """
-    return jsonify(score=Hacker.query.filter_by(name=author).first().score)
+    return jsonify(score=Hacker.query.filter_by(name=author).first().score // 100)
 
 
 @app.route('/comment-by-id/<comment_id>')
@@ -112,7 +112,7 @@ def comment_by_id(comment_id):
     return jsonify({
         'author': comment.author,
         'comment': comment.comment,
-        'saltiness': comment.saltiness,
+        'saltiness': comment.saltiness // 100,
     })
 
 
@@ -137,12 +137,12 @@ def recent():
 
 
 @app.route('/top-hackers/<number>')
-def top_hackers(number=3):
+def top_hackers(number):
     hackers = Hacker.query.limit(number).all()
     return jsonify([{
         'rank': hacker.rank,
         'name': hacker.name,
-        'score': hacker.score,
+        'score': hacker.score // 100,
     } for hacker in hackers])
 
 
