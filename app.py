@@ -123,7 +123,7 @@ def recent():
     comments = []
     usr_com = zip(soup.find_all('a', class_='hnuser'),
                   soup.find_all('div', class_='comment'),
-                  soup.find_all('span', class_='storyon'))
+                  soup.find_all('span', class_='onstory'))
     for usr, com, head in usr_com:
         text = com.get_text().strip()
         comments.append({
